@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feuer & Stahl – Geschichte der Schusswaffen</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0d0a07;
+    --bg2: #141008;
+    --panel: #1a1208;
+    --gold: #c9963a;
+    --gold2: #e8b84b;
+    --amber: #ff8c00;
+    --smoke: #9a9078;
+    --text: #e8dcc8;
+    --text2: #b8a880;
+    --red: #c0392b;
+    --blue: #2980b9;
+    --steel: #7fa8c0;
+    --fire: #ff4500;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Text', serif;
+    font-size: 18px;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    background: linear-gradient(180deg, #0a0804 0%, transparent 100%);
+    position: relative;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9963a' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 1;
+  }
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 4vw, 2.8rem);
+    color: var(--gold2);
+    text-shadow: 0 0 30px rgba(201,150,58,0.5), 0 2px 4px #000;
+    letter-spacing: 0.05em;
+    position: relative;
+  }
+  .subtitle {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    color: var(--smoke);
+    font-size: 1.1rem;
+    margin-top: 8px;
+  }
+  .divider {
+    width: 300px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 16px auto;
+  }
+
+  /* ===== TIMELINE NAV ===== */
+  .timeline-nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 10px 20px;
+    background: rgba(0,0,0,0.4);
+    border-top: 1px solid rgba(201,150,58,0.2);
+    border-bottom: 1px solid rgba(201,150,58,0.2);
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--bg2);
+  }
+  .timeline-nav::-webkit-scrollbar { height: 4px; }
+  .timeline-nav::-webkit-scrollbar-track { background: var(--bg2); }
+  .timeline-nav::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  .era-btn {
+    flex-shrink: 0;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(201,150,58,0.15);
+    color: var(--smoke);
+    font-family: 'Crimson Text', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    white-space: nowrap;
+    position: relative;
+  }
+  .era-btn:hover { color: var(--gold2); background: rgba(201,150,58,0.05); }
+  .era-btn.active {
+    color: var(--gold2);
+    background: rgba(201,150,58,0.1);
+  }
+  .era-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold2);
+  }
+  .era-year { display: block; font-size: 0.75rem; color: var(--amber); font-family: 'Share Tech Mono', monospace; }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0;
+    min-height: 80vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
+  }
+  @media(max-width: 900px) {
+    .main { grid-template-columns: 1fr; }
+  }
+
+  /* ===== WEAPON DISPLAY ===== */
+  .weapon-panel {
+    background: var(--panel);
+    border: 1px solid rgba(201,150,58,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .weapon-title-bar {
+    padding: 16px 24px;
+    background: rgba(201,150,58,0.08);
+    border-bottom: 1px solid rgba(201,150,58,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .weapon-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.3rem;
+    color: var(--gold2);
+  }
+  .weapon-year-badge {
+    background: var(--gold);
+    color: #0a0804;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 2px;
+  }
+
+  /* ===== SVG ANIMATION AREA ===== */
+  .animation-area {
+    background: radial-gradient(ellipse at center, #1f1508 0%, #0a0804 100%);
+    padding: 30px;
+    min-height: 320px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .animation-area svg {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+  }
+
+  /* ===== FIRE BUTTON ===== */
+  .fire-btn {
+    margin-top: 20px;
+    padding: 14px 40px;
+    background: linear-gradient(135deg, #8b1a1a, #c0392b);
+    border: 2px solid #e74c3c;
+    color: #fff;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(192,57,43,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .fire-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: -20px;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 14px solid rgba(255,255,255,0.3);
+  }
+  .fire-btn:hover {
+    background: linear-gradient(135deg, #a12020, #e74c3c);
+    box-shadow: 0 0 30px rgba(231,76,60,0.5);
+    transform: scale(1.03);
+  }
+  .fire-btn:active { transform: scale(0.97); }
+
+  /* ===== INFO PANEL ===== */
+  .info-section {
+    padding: 20px 24px;
+    flex: 1;
+  }
+  .info-section h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(201,150,58,0.2);
+    padding-bottom: 6px;
+  }
+  .info-section p {
+    color: var(--text2);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+
+  /* ===== MECHANISM STEPS ===== */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(201,150,58,0.04);
+    border-left: 3px solid rgba(201,150,58,0.3);
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .step:hover, .step.active {
+    background: rgba(201,150,58,0.1);
+    border-left-color: var(--gold2);
+  }
+  .step-num {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--amber);
+    font-size: 0.8rem;
+    min-width: 24px;
+    font-weight: bold;
+  }
+  .step-text { font-size: 0.9rem; color: var(--text2); }
+  .step.active .step-text { color: var(--text); }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+  .stats-card {
+    background: var(--panel);
+    border: 1px solid rgba(201,150,58,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .stats-card-header {
+    padding: 12px 16px;
+    background: rgba(201,150,58,0.08);
+    border-bottom: 1px solid rgba(201,150,58,0.2);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .stats-body { padding: 16px; }
+
+  /* ===== PENETRATION METER ===== */
+  .pen-meter {
+    margin-bottom: 16px;
+  }
+  .pen-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+  }
+  .pen-label-name { color: var(--smoke); }
+  .pen-label-val { font-family: 'Share Tech Mono', monospace; color: var(--gold2); font-weight: bold; }
+  .pen-bar-bg {
+    height: 14px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .pen-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .pen-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.15) 100%);
+  }
+
+  /* ===== COMPARISON TABLE ===== */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .compare-row:last-child { border-bottom: none; }
+  .cmp-name { font-size: 0.82rem; color: var(--smoke); }
+  .cmp-val { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--text); }
+
+  /* ===== PARTICLE CANVAS ===== */
+  #particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ===== SMOKE EFFECT ===== */
+  .smoke-puff {
+    position: absolute;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(180,160,120,0.6) 0%, transparent 70%);
+    pointer-events: none;
+    animation: smokeRise 1.5s ease-out forwards;
+  }
+  @keyframes smokeRise {
+    0% { opacity: 0.8; transform: scale(0.3) translate(0,0); }
+    100% { opacity: 0; transform: scale(2.5) translate(-20px, -60px); }
+  }
+
+  /* ===== FLASH EFFECT ===== */
+  .muzzle-flash {
+    position: absolute;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, #ff8c00 40%, transparent 70%);
+    pointer-events: none;
+    animation: flashFade 0.2s ease-out forwards;
+  }
+  @keyframes flashFade {
+    0% { opacity: 1; transform: scale(0.5); }
+    100% { opacity: 0; transform: scale(1.5); }
+  }
+
+  /* ===== RECOIL ANIM ===== */
+  @keyframes recoil {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-18px); }
+    60% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+  }
+  .recoiling { animation: recoil 0.4s ease-out; }
+
+  /* ===== HAMMER ANIM ===== */
+  @keyframes hammerStrike {
+    0% { transform: rotate(0deg); }
+    40% { transform: rotate(-40deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  /* ===== ERA BADGE ===== */
+  .era-badge-display {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid rgba(201,150,58,0.2);
+  }
+  .era-badge-display span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--smoke);
+  }
+
+  /* ===== MATERIALS BAR ===== */
+  .materials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .mat-tag {
+    padding: 3px 10px;
+    background: rgba(201,150,58,0.1);
+    border: 1px solid rgba(201,150,58,0.3);
+    border-radius: 2px;
+    font-size: 0.78rem;
+    color: var(--gold);
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* ===== HIDDEN CLASS ===== */
+  .hidden { display: none !important; }
+
+  /* ===== LOADING SPINNER ===== */
+  .weapon-svg-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ===== SCROLL HINT ===== */
+  .scroll-hint {
+    font-size: 0.78rem;
+    color: var(--smoke);
+    text-align: center;
+    padding: 4px;
+    font-style: italic;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--smoke);
+    font-size: 0.85rem;
+    font-style: italic;
+    border-top: 1px solid rgba(201,150,58,0.1);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<header>
+  <h1>⚙ Feuer &amp; Stahl</h1>
+  <p class="subtitle">Meilensteine der Schusswaffengeschichte — Interaktive Zeitreise</p>
+  <div class="divider"></div>
+  <p class="scroll-hint">▶ Klicke auf eine Ära, wähle einen Mechanismus-Schritt und feuere!</p>
+</header>
+
+<nav class="timeline-nav" id="timelineNav">
+  <!-- Buttons injected by JS -->
+</nav>
+
+<div class="main">
+  <div class="weapon-panel">
+    <div class="weapon-title-bar">
+      <span class="weapon-name" id="weaponName">Handrohr</span>
+      <span class="weapon-year-badge" id="weaponYear">~1400</span>
+    </div>
+
+    <div class="animation-area" id="animArea">
+      <div class="weapon-svg-wrapper" id="svgWrapper">
+        <!-- SVG injected by JS -->
+      </div>
+      <button class="fire-btn" id="fireBtn" onclick="fireWeapon()">⚡ ABFEUERN</button>
+    </div>
+
+    <div class="info-section">
+      <h3>Mechanismus</h3>
+      <p id="weaponDesc"></p>
+      <div class="steps" id="stepsContainer"></div>
+      <h3>Materialien &amp; Zubehör</h3>
+      <div class="materials" id="materialsContainer"></div>
+    </div>
+    <div class="era-badge-display">
+      <span id="eraBadge"></span>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="stats-card">
+      <div class="stats-card-header">⊙ Durchschlagskraft &amp; Leistung</div>
+      <div class="stats-body" id="statsBody">
+        <!-- Injected -->
+      </div>
+    </div>
+
+    <div class="stats-card">
+      <div class="stats-card-header">≡ Kennwerte</div>
+      <div class="stats-body">
+        <div class="compare-grid" id="compareGrid"></div>
+      </div>
+    </div>
+
+    <div class="stats-card">
+      <div class="stats-card-header">⊞ Epochenvergleich – Joule</div>
+      <div class="stats-body" id="epochChart"></div>
+    </div>
+  </div>
+</div>
+
+<footer>Historisch-interaktives Lernprojekt · Alle Angaben sind historische Durchschnittswerte</footer>
+
+<script>
+// ============================================================
+//  DATA
+// ============================================================
+const ERAS = [
+  {
+    id: 'handrohr',
+    name: 'Handrohr',
+    year: '~1400',
+    period: 'Mittelalter',
+    desc: 'Das frühste Handfeuerrohr war ein einfaches Eisenrohr, das mit Schwarzpulver und einem Bleiball geladen wurde. Gezündet wurde durch ein glühendes Stück Lunte oder einen Glühkohle direkt am Zündloch.',
+    steps: [
+      'Pulver ins Rohr schütten',
+      'Bleikugel mit Stab festdrücken',
+      'Glühende Lunte ans Zündloch halten',
+      'Zündung → Explosion → Kugel tritt aus'
+    ],
+    materials: ['Schmiedeeisen', 'Schwarzpulver', 'Bleikugel', 'Luntenknopf'],
+    stats: {
+      muzzleVelocity: 180,
+      joule: 580,
+      effectiveRange: 20,
+      rof: 0.3,
+      penetrationMM: 2,
+      accuracy: 8
+    },
+    penetrationTargets: [
+      { name: 'Holzbrett 2cm', pct: 40, color: '#a0522d' },
+      { name: 'Lederrüstung', pct: 35, color: '#8b6914' },
+      { name: 'Kettenhemd', pct: 28, color: '#888' },
+      { name: 'Plattenpanzer 3mm', pct: 10, color: '#aaa' }
+    ]
+  },
+  {
+    id: 'luntenschloss',
+    name: 'Luntenschlossgewehr',
+    year: '~1450',
+    period: 'Renaissance',
+    desc: 'Das Luntenschloss (Matchlock) war die erste mechanische Abzugsvorrichtung. Ein S-förmiger Hahn (Serpentine) hält eine brennende Lunte und senkt sie beim Drücken des Abzugs auf die Zündpfanne.',
+    steps: [
+      'Lunte in Serpentine einspannen',
+      'Lunte anzünden und glühen lassen',
+      'Pulver in die Pfanne füllen',
+      'Gewehr laden (Kugel und Treibladung)',
+      'Ziel anlegen – Abzug drücken',
+      'Serpentine senkt Lunte → Pfanne zündet → Hauptladung'
+    ],
+    materials: ['Schmiedeeisen', 'Walnu­ssholz', 'Schwarzpulver', 'Luntenschnur', 'Bleikugel'],
+    stats: {
+      muzzleVelocity: 320,
+      joule: 1800,
+      effectiveRange: 50,
+      rof: 1.2,
+      penetrationMM: 5,
+      accuracy: 22
+    },
+    penetrationTargets: [
+      { name: 'Holzbrett 4cm', pct: 72, color: '#a0522d' },
+      { name: 'Lederrüstung', pct: 85, color: '#8b6914' },
+      { name: 'Kettenhemd', pct: 60, color: '#888' },
+      { name: 'Plattenpanzer 5mm', pct: 30, color: '#aaa' }
+    ]
+  },
+  {
+    id: 'radschloss',
+    name: 'Radschlossgewehr',
+    year: '~1520',
+    period: 'Renaissance',
+    desc: 'Das Radschloss (Wheellock) nutzte ein aufgezogenes, federbetriebenes Zahnrad, das beim Abfeuern gegen einen Pyritstein reibt und Funken erzeugt. Damit war die Lunte überflüssig – ideal für Reiter.',
+    steps: [
+      'Rad mit Schlüssel aufziehen (Feder spannen)',
+      'Pyrit-Stein in Hahn einspannen',
+      'Pfanne mit Zündpulver füllen',
+      'Waffe laden',
+      'Abzug drücken – Rad dreht sich',
+      'Reibung erzeugt Funken → Zündpulver → Schuss'
+    ],
+    materials: ['Stahl', 'Pyritstein', 'Messingteile', 'Schwarzpulver', 'Nussholz'],
+    stats: {
+      muzzleVelocity: 340,
+      joule: 2100,
+      effectiveRange: 60,
+      rof: 1.5,
+      penetrationMM: 6,
+      accuracy: 30
+    },
+    penetrationTargets: [
+      { name: 'Holzbrett 4cm', pct: 78, color: '#a0522d' },
+      { name: 'Lederrüstung', pct: 90, color: '#8b6914' },
+      { name: 'Kettenhemd', pct: 70, color: '#888' },
+      { name: 'Plattenpanzer 5mm', pct: 38, color: '#aaa' }
+    ]
+  },
+  {
+    id: 'steinschloss',
+    name: 'Steinschlossgewehr',
+    year: '~1630',
+    period: 'Barockzeit',
+    desc: 'Das Steinschloss (Flintlock) dominierte zwei Jahrhunderte das Kriegsgeschehen. Ein Feuerstein (Flint) ist im Hahn eingespannt. Beim Abzug schlägt er gegen eine Stahlplatte (Frizzen), wirft Funken und öffnet gleichzeitig die Pfanne.',
+    steps: [
+      'Feuerstein in Hahn einspannen',
+      'Hahn in Halb-Rast stellen (Sicherung)',
+      'Pfanne mit Schwarzpulver füllen',
+      'Frizzen schließen',
+      'Gewehr mit Kugel und Pulver laden',
+      'Hahn voll spannen',
+      'Abzug drücken → Hahn fällt → Funken → Schuss'
+    ],
+    materials: ['Schmiedestahl', 'Feuerstein', 'Kirschholz', 'Schwarzpulver', 'Papierpatrone'],
+    stats: {
+      muzzleVelocity: 420,
+      joule: 3200,
+      effectiveRange: 80,
+      rof: 2.5,
+      penetrationMM: 8,
+      accuracy: 45
+    },
+    penetrationTargets: [
+      { name: 'Holzplanke 5cm', pct: 85, color: '#a0522d' },
+      { name: 'Lederrüstung', pct: 98, color: '#8b6914' },
+      { name: 'Gusseisen 8mm', pct: 35, color: '#888' },
+      { name: 'Ziegelstein', pct: 28, color: '#c8a882' }
+    ]
+  },
+  {
+    id: 'perkussionsschloss',
+    name: 'Perkussionsgewehr',
+    year: '~1820',
+    period: 'Industrialisierung',
+    desc: 'Das Perkussionsschloss (Percussion Cap) ersetzte Feuerstein und Pulverpfanne. Ein Kupferhütchen (Zündhütchen) mit Knallquecksilber sitzt auf dem Zündstempel. Wasserdicht und zuverlässiger als das Steinschloss.',
+    steps: [
+      'Hahn in Rast-Position (halb gespannt)',
+      'Kupferzündhütchen auf Stempel setzen',
+      'Pulver und Kugel vom Lauf laden',
+      'Hahn voll spannen',
+      'Abzug drücken → Hahn schlägt auf Hütchen',
+      'Zündhütchen detoniert → Pulver → Schuss'
+    ],
+    materials: ['Stahl', 'Kupferzündhütchen', 'Knallquecksilber', 'Schwarzpulver', 'Bleikugel'],
+    stats: {
+      muzzleVelocity: 450,
+      joule: 3800,
+      effectiveRange: 100,
+      rof: 3.5,
+      penetrationMM: 10,
+      accuracy: 60
+    },
+    penetrationTargets: [
+      { name: 'Holzplanke 8cm', pct: 88, color: '#a0522d' },
+      { name: 'Gusseisen 10mm', pct: 50, color: '#888' },
+      { name: 'Sandstein 15cm', pct: 40, color: '#d2b48c' },
+      { name: 'Stahl 3mm', pct: 22, color: '#aaa' }
+    ]
+  },
+  {
+    id: 'hinterlader',
+    name: 'Hinterlader (Dreyse)',
+    year: '~1841',
+    period: 'Industrialisierung',
+    desc: 'Das Dreyse-Zündnadelgewehr war der erste militärische Hinterlader. Die Patrone (Pulver, Zünder und Kugel in einer Papierpatrone) wird von hinten in den Lauf geschoben. Ein langer Nadelbolzen durchsticht die Patrone und zündet das Hütchen.',
+    steps: [
+      'Bolzen zurückziehen (Verschluss öffnen)',
+      'Papierpatrone einlegen',
+      'Bolzen vorschieben und verriegeln',
+      'Abzug drücken',
+      'Nadel schießt vor → durchsticht Patrone → Zünder → Schuss',
+      'Bolzen zurück – leere Hülse auswerfen'
+    ],
+    materials: ['Stahl', 'Nadelbolzen', 'Papierpatrone', 'Schwarzpulver', 'Bleikugel'],
+    stats: {
+      muzzleVelocity: 480,
+      joule: 4500,
+      effectiveRange: 200,
+      rof: 5,
+      penetrationMM: 15,
+      accuracy: 65
+    },
+    penetrationTargets: [
+      { name: 'Holz 12cm', pct: 92, color: '#a0522d' },
+      { name: 'Ziegelwand 10cm', pct: 55, color: '#c8a882' },
+      { name: 'Stahl 4mm', pct: 32, color: '#aaa' },
+      { name: 'Sandsackposition', pct: 48, color: '#c2b280' }
+    ]
+  },
+  {
+    id: 'repetierer',
+    name: 'Repetierbüchse (Winchester)',
+    year: '~1873',
+    period: 'Industriezeit',
+    desc: 'Die Winchester 1873 war das "Gewehr, das den Westen gewann". Ein Hebelmechanismus unter dem Abzugsbügel öffnet den Verschluss, wirft die Hülse aus und lädt die nächste Patrone aus dem Röhrenmagazin. Zentralfeuerzündung mit Metallpatronen.',
+    steps: [
+      'Hebel nach unten schwingen',
+      'Verschluss öffnet – leere Hülse ausgeworfen',
+      'Nächste Patrone aus Magazin wird zugeführt',
+      'Hebel zurück → Verschluss schließt, Patrone in Kammer',
+      'Hahn automatisch gespannt',
+      'Abzug drücken → Schlagbolzen → Zündhütchen → Schuss'
+    ],
+    materials: ['Stahl', 'Walnussholz', 'Messingrahmen', 'Metallpatrone .44-40', 'Röhrenmagazin'],
+    stats: {
+      muzzleVelocity: 550,
+      joule: 5800,
+      effectiveRange: 150,
+      rof: 15,
+      penetrationMM: 22,
+      accuracy: 70
+    },
+    penetrationTargets: [
+      { name: 'Holz 15cm', pct: 95, color: '#a0522d' },
+      { name: 'Ziegelwand', pct: 65, color: '#c8a882' },
+      { name: 'Stahl 6mm', pct: 45, color: '#aaa' },
+      { name: 'Körperschutzweste (früh)', pct: 80, color: '#5b7a99' }
+    ]
+  },
+  {
+    id: 'selbstlader',
+    name: 'Selbstladepistole (Luger P08)',
+    year: '~1908',
+    period: '20. Jahrhundert',
+    desc: 'Die Luger P08 nutzt die Rückstoßenergie des Schusses, um automatisch den Verschluss zu öffnen, die Hülse auszuwerfen und die nächste Patrone zu laden. Zugeführt aus einem auswechselbaren Kastenmagazin.',
+    steps: [
+      'Magazin einführen und einrasten',
+      'Schlitten zurückziehen → erste Patrone laden',
+      'Abzug drücken → Schlagbolzen schlägt',
+      'Rückstoß treibt Schlitten zurück',
+      'Hülse auswerfen',
+      'Schlitten vorschnappen → neue Patrone laden'
+    ],
+    materials: ['Stahl', 'Walnussholz (Griff)', '9mm Parabellum', 'Kastenmagazin', 'Rückstoßsystem'],
+    stats: {
+      muzzleVelocity: 370,
+      joule: 500,
+      effectiveRange: 50,
+      rof: 60,
+      penetrationMM: 18,
+      accuracy: 75
+    },
+    penetrationTargets: [
+      { name: 'Holz 6cm', pct: 88, color: '#a0522d' },
+      { name: 'Frühe Schutzweste', pct: 70, color: '#5b7a99' },
+      { name: 'Stahl 3mm', pct: 25, color: '#aaa' },
+      { name: 'Kevlar IIa', pct: 12, color: '#4a7c59' }
+    ]
+  },
+  {
+    id: 'sturmgewehr',
+    name: 'Sturmgewehr (AK-47)',
+    year: '~1947',
+    period: 'Moderne',
+    desc: 'Kalashnikovs AK-47 verwendet Gasentnahme aus dem Lauf: Ein Teil der Pulvergase drückt einen Kolben zurück, der den Verschluss öffnet. Extrem robust, einfach herzustellen. 7,62×39mm Munition.',
+    steps: [
+      'Magazin einstecken (30 Schuss)',
+      'Ladehebel zurückziehen und loslassen',
+      'Sicherungshebel auf Feuerstoß/Einzelfeuer',
+      'Abzug drücken → Schuss',
+      'Pulvergas treibt Kolben zurück',
+      'Verschluss öffnet → Hülse raus → neue Patrone → schließt'
+    ],
+    materials: ['Stahl', 'Holz/Polymer', '7,62×39mm', 'Gaskolben', '30-Schuss-Magazin'],
+    stats: {
+      muzzleVelocity: 715,
+      joule: 2100,
+      effectiveRange: 350,
+      rof: 600,
+      penetrationMM: 35,
+      accuracy: 68
+    },
+    penetrationTargets: [
+      { name: 'Holz 20cm', pct: 99, color: '#a0522d' },
+      { name: 'Kevlar IIa', pct: 88, color: '#4a7c59' },
+      { name: 'Stahl 8mm', pct: 55, color: '#aaa' },
+      { name: 'Ziegel 30cm', pct: 72, color: '#c8a882' }
+    ]
+  },
+  {
+    id: 'modern',
+    name: 'Modernes Sturmgewehr (HK416)',
+    year: '~2004',
+    period: 'Gegenwart',
+    desc: 'Das HK416 nutzt ein Kurzgas-System (piston-driven). Polymer­bauteile, Pica­tinny-Schienen für Zielfernrohr, Laser, Lampe. 5.56mm NATO-Munition mit hoher Präzision und Zuverlässigkeit unter extremen Bedingungen.',
+    steps: [
+      'STANAG-Magazin einführen (30 Schuss)',
+      'Ladering betätigen',
+      'Feuerwahlhebel: Safe / Single / Auto',
+      'Abzug → Schlagbolzen → Patrone',
+      'Kurzhub-Gaskolben treibt Träger zurück',
+      'Dreh-Verschluss öffnet → Hülse → neu laden'
+    ],
+    materials: ['Hochfester Stahl', 'Polymer', '5.56×45mm NATO', 'Picatinny-Schiene', 'Gaskolben'],
+    stats: {
+      muzzleVelocity: 900,
+      joule: 1750,
+      effectiveRange: 500,
+      rof: 700,
+      penetrationMM: 40,
+      accuracy: 92
+    },
+    penetrationTargets: [
+      { name: 'Kevlar IIIA', pct: 78, color: '#4a7c59' },
+      { name: 'Stahl 10mm', pct: 60, color: '#aaa' },
+      { name: 'Ziegel 30cm', pct: 80, color: '#c8a882' },
+      { name: 'SAPI-Platte', pct: 18, color: '#607080' }
+    ]
+  }
+];
+
+// ============================================================
+//  SVG DEFINITIONS
+// ============================================================
+function getSVG(id) {
+  const svgs = {
+    handrohr: `
+<svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <radialGradient id="metalGrad" cx="50%" cy="30%">
+      <stop offset="0%" stop-color="#9e8060"/>
+      <stop offset="100%" stop-color="#3a2a1a"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <!-- Wooden handle -->
+  <rect x="60" y="110" width="160" height="28" rx="6" fill="#6b3a1f" stroke="#3d1f0a" stroke-width="1.5"/>
+  <rect x="65" y="115" width="150" height="16" rx="3" fill="#7d4424" opacity="0.5"/>
+  <!-- Iron barrel -->
+  <rect x="200" y="95" width="230" height="40" rx="8" fill="url(#metalGrad)" stroke="#222" stroke-width="1.5" id="barrel"/>
+  <rect x="205" y="100" width="220" height="16" rx="4" fill="rgba(255,255,255,0.08)"/>
+  <!-- Touch hole -->
+  <circle cx="230" cy="95" r="5" fill="#ff4500" opacity="0.8" id="touchHole" filter="url(#glow)"/>
+  <!-- Muzzle -->
+  <ellipse cx="430" cy="115" rx="12" ry="20" fill="#2a1a08" stroke="#444" stroke-width="1.5"/>
+  <!-- Ramrod -->
+  <rect x="210" y="138" width="200" height="4" rx="2" fill="#8b5e3c" opacity="0.7"/>
+  <!-- Bullet indication -->
+  <circle cx="400" cy="115" r="7" fill="#bbb" opacity="0.5" id="bulletVis"/>
+  <!-- Glowing tip on touch hole -->
+  <circle cx="230" cy="95" r="3" fill="#fff" opacity="0" id="coalGlow"/>
+</svg>`,
+
+    luntenschloss: `
+<svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <linearGradient id="woodGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7d4a22"/>
+      <stop offset="100%" stop-color="#4a2510"/>
+    </linearGradient>
+    <radialGradient id="metalG" cx="40%" cy="30%">
+      <stop offset="0%" stop-color="#aaa"/>
+      <stop offset="100%" stop-color="#444"/>
+    </radialGradient>
+  </defs>
+  <!-- Stock -->
+  <path d="M40,140 Q80,135 120,130 L180,125 L180,165 L120,168 Q80,172 40,175 Z" fill="url(#woodGrad)" stroke="#3a1a08" stroke-width="1.5"/>
+  <!-- Barrel -->
+  <rect x="170" y="108" width="290" height="36" rx="8" fill="url(#metalG)" stroke="#333" stroke-width="1.5" id="barrel"/>
+  <rect x="175" y="112" width="280" height="14" rx="4" fill="rgba(255,255,255,0.07)"/>
+  <!-- Lock plate -->
+  <rect x="140" y="115" width="55" height="30" rx="5" fill="#888" stroke="#444" stroke-width="1"/>
+  <!-- Pan -->
+  <rect x="145" y="132" width="25" height="8" rx="2" fill="#777" stroke="#555" stroke-width="1"/>
+  <rect x="145" y="132" width="25" height="5" rx="1" fill="#ff6600" opacity="0" id="panPowder"/>
+  <!-- Serpentine (S-curve) -->
+  <path d="M155,125 Q162,108 155,95 Q148,82 155,70" stroke="#666" stroke-width="5" fill="none" stroke-linecap="round" id="serpentine"/>
+  <!-- Glowing match tip -->
+  <circle cx="155" cy="70" r="5" fill="#ff4500" id="matchGlow" opacity="0.9" filter="url(#glow2)"/>
+  <filter id="glow2"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <!-- Muzzle -->
+  <ellipse cx="460" cy="126" rx="12" ry="18" fill="#1a1008" stroke="#444" stroke-width="1.5"/>
+</svg>`,
+
+    radschloss: `
+<svg viewBox="0 0 540 210" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5e3c"/>
+      <stop offset="100%" stop-color="#4a2510"/>
+    </linearGradient>
+    <radialGradient id="mg" cx="40%" cy="30%"><stop offset="0%" stop-color="#ccc"/><stop offset="100%" stop-color="#555"/></radialGradient>
+  </defs>
+  <!-- Stock -->
+  <path d="M30,145 Q90,138 140,132 L195,128 L195,170 L140,174 Q90,178 30,180 Z" fill="url(#wg)" stroke="#3a1a08" stroke-width="1.5"/>
+  <!-- Barrel (longer for pistol) -->
+  <rect x="180" y="112" width="300" height="36" rx="8" fill="url(#mg)" stroke="#333" stroke-width="1.5" id="barrel"/>
+  <!-- Lock plate -->
+  <rect x="148" y="118" width="58" height="32" rx="5" fill="#888" stroke="#444" stroke-width="1"/>
+  <!-- Wheel -->
+  <circle cx="172" cy="137" r="18" fill="none" stroke="#777" stroke-width="4" id="wheel"/>
+  <line x1="172" y1="119" x2="172" y2="155" stroke="#888" stroke-width="2.5" id="wheelSpoke1"/>
+  <line x1="154" y1="137" x2="190" y2="137" stroke="#888" stroke-width="2.5" id="wheelSpoke2"/>
+  <!-- Pyrite dog -->
+  <path d="M178,120 Q188,115 192,125 Q196,135 185,138" stroke="#aaa" stroke-width="3" fill="none" id="pyriteDog"/>
+  <circle cx="193" cy="122" r="4" fill="#c9963a" id="pyriteStone"/>
+  <!-- Muzzle -->
+  <ellipse cx="480" cy="130" rx="12" ry="18" fill="#1a1008" stroke="#444" stroke-width="1.5"/>
+  <filter id="glow3"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</svg>`,
+
+    steinschloss: `
+<svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5e3c"/>
+      <stop offset="100%" stop-color="#3a1a08"/>
+    </linearGradient>
+    <radialGradient id="mg" cx="35%" cy="25%"><stop offset="0%" stop-color="#ddd"/><stop offset="100%" stop-color="#555"/></radialGradient>
+    <filter id="glow4"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <!-- Stock curved -->
+  <path d="M20,155 Q90,142 150,136 L210,130 L210,178 L150,183 Q90,190 20,188 Z" fill="url(#wg)" stroke="#2a1008" stroke-width="1.5"/>
+  <!-- Triggerguard -->
+  <path d="M100,178 Q120,200 145,178" stroke="#888" stroke-width="3" fill="none"/>
+  <!-- Barrel long -->
+  <rect x="194" y="116" width="330" height="32" rx="7" fill="url(#mg)" stroke="#333" stroke-width="1.5" id="barrel"/>
+  <!-- Lock plate -->
+  <rect x="155" y="120" width="65" height="34" rx="5" fill="#888" stroke="#444" stroke-width="1"/>
+  <!-- Frizzen (steel) -->
+  <path d="M200,118 L215,100 L225,105 L212,125 Z" fill="#aaa" stroke="#666" stroke-width="1.5" id="frizzen"/>
+  <!-- Pan -->
+  <rect x="190" y="140" width="28" height="9" rx="2" fill="#777" stroke="#555" stroke-width="1"/>
+  <!-- Hammer/cock with flint -->
+  <g id="hammer" style="transform-origin:180px 135px">
+    <path d="M175,135 Q182,118 178,105" stroke="#888" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <polygon points="172,102 184,98 186,108 174,110" fill="#9c8040" stroke="#7a6030" stroke-width="1"/>
+  </g>
+  <!-- Trigger -->
+  <rect x="115" y="175" width="8" height="22" rx="2" fill="#888"/>
+  <!-- Muzzle -->
+  <ellipse cx="524" cy="132" rx="11" ry="16" fill="#111" stroke="#555" stroke-width="1.5"/>
+  <!-- Bayonet lug hint -->
+  <rect x="505" y="148" width="20" height="5" rx="1" fill="#888" opacity="0.4"/>
+</svg>`,
+
+    perkussionsschloss: `
+<svg viewBox="0 0 560 215" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5e3c"/>
+      <stop offset="100%" stop-color="#3a1a08"/>
+    </linearGradient>
+    <radialGradient id="mg" cx="35%" cy="25%"><stop offset="0%" stop-color="#ddd"/><stop offset="100%" stop-color="#555"/></radialGradient>
+  </defs>
+  <path d="M20,158 Q90,144 152,138 L212,132 L212,180 L152,185 Q90,192 20,190 Z" fill="url(#wg)" stroke="#2a1008" stroke-width="1.5"/>
+  <path d="M100,180 Q120,202 146,180" stroke="#888" stroke-width="3" fill="none"/>
+  <rect x="196" y="118" width="320" height="30" rx="7" fill="url(#mg)" stroke="#333" stroke-width="1.5" id="barrel"/>
+  <!-- Lock plate simplified -->
+  <rect x="158" y="122" width="60" height="32" rx="5" fill="#888" stroke="#444" stroke-width="1"/>
+  <!-- Nipple/Stempel -->
+  <rect x="198" y="112" width="6" height="12" rx="2" fill="#ccc" stroke="#888" stroke-width="1" id="nipple"/>
+  <!-- Cap (Zündhütchen) -->
+  <rect x="196" y="106" width="10" height="7" rx="2" fill="#c08020" stroke="#a06010" stroke-width="1" id="capElem"/>
+  <!-- Hammer (rounded) -->
+  <g id="hammer" style="transform-origin:178px 130px">
+    <rect x="170" y="105" width="16" height="30" rx="4" fill="#999" stroke="#666" stroke-width="1.5"/>
+    <rect x="172" y="102" width="12" height="8" rx="2" fill="#aaa"/>
+  </g>
+  <rect x="115" y="177" width="8" height="22" rx="2" fill="#888"/>
+  <ellipse cx="516" cy="133" rx="10" ry="15" fill="#111" stroke="#555" stroke-width="1.5"/>
+</svg>`,
+
+    hinterlader: `
+<svg viewBox="0 0 580 210" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5e3c"/>
+      <stop offset="100%" stop-color="#3a1a08"/>
+    </linearGradient>
+    <radialGradient id="mg"><stop offset="0%" stop-color="#ddd"/><stop offset="100%" stop-color="#555"/></radialGradient>
+  </defs>
+  <path d="M20,155 Q90,142 155,136 L218,130 L218,178 L155,183 Q90,190 20,188 Z" fill="url(#wg)" stroke="#2a1008" stroke-width="1.5"/>
+  <!-- Receiver -->
+  <rect x="200" y="118" width="80" height="35" rx="4" fill="#777" stroke="#444" stroke-width="1.5"/>
+  <!-- Bolt handle -->
+  <g id="boltHandle">
+    <rect x="268" y="115" width="40" height="10" rx="3" fill="#aaa" stroke="#666" stroke-width="1.5"/>
+    <circle cx="308" cy="120" r="8" fill="#bbb" stroke="#777" stroke-width="1.5"/>
+  </g>
+  <!-- Barrel -->
+  <rect x="278" y="120" width="260" height="28" rx="6" fill="url(#mg)" stroke="#333" stroke-width="1.5" id="barrel"/>
+  <!-- Bolt/needle indicator -->
+  <rect x="210" y="130" width="60" height="8" rx="3" fill="#aaa" id="needle" opacity="0.8"/>
+  <!-- Trigger -->
+  <rect x="145" y="170" width="8" height="22" rx="2" fill="#888"/>
+  <path d="M118,168 Q138,192 158,168" stroke="#888" stroke-width="3" fill="none"/>
+  <ellipse cx="538" cy="134" rx="10" ry="14" fill="#111" stroke="#555" stroke-width="1.5"/>
+</svg>`,
+
+    repetierer: `
+<svg viewBox="0 0 580 210" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5e3c"/>
+      <stop offset="100%" stop-color="#3a1a08"/>
+    </linearGradient>
+    <radialGradient id="mg"><stop offset="0%" stop-color="#ddd"/><stop offset="100%" stop-color="#555"/></radialGradient>
+    <linearGradient id="brass"><stop offset="0%" stop-color="#d4a020"/><stop offset="100%" stop-color="#a07010"/></linearGradient>
+  </defs>
+  <!-- Stock -->
+  <path d="M20,158 Q90,144 155,138 L215,132 L215,180 L155,185 Q90,192 20,190 Z" fill="url(#wg)" stroke="#2a1008" stroke-width="1.5"/>
+  <!-- Brass receiver -->
+  <rect x="198" y="118" width="90" height="36" rx="5" fill="url(#brass)" stroke="#806010" stroke-width="2"/>
+  <!-- Lever -->
+  <g id="lever" style="transform-origin:235px 154px">
+    <path d="M215,154 Q250,190 290,175" stroke="#c9963a" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M215,154 L295,154" stroke="#c9963a" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.5"/>
+  </g>
+  <!-- Tube magazine below barrel -->
+  <rect x="295" y="150" width="230" height="12" rx="6" fill="#888" stroke="#555" stroke-width="1.5"/>
+  <!-- Barrel -->
+  <rect x="288" y="118" width="240" height="28" rx="6" fill="url(#mg)" stroke="#333" stroke-width="1.5" id="barrel"/>
+  <!-- Hammer -->
+  <g id="hammer" style="transform-origin:218px 128px">
+    <path d="M212,128 Q220,108 215,95" stroke="#aaa" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <rect x="208" y="90" width="14" height="10" rx="2" fill="#bbb" stroke="#888" stroke-width="1"/>
+  </g>
+  <ellipse cx="528" cy="132" rx="10" ry="14" fill="#111" stroke="#555" stroke-width="1.5"/>
+</svg>`,
+
+    selbstlader: `
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <radialGradient id="mg"><stop offset="0%" stop-color="#ccc"/><stop offset="100%" stop-color="#555"/></radialGradient>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8b5e3c"/><stop offset="100%" stop-color="#3a1a08"/></linearGradient>
+  </defs>
+  <!-- Grip -->
+  <rect x="80" y="120" width="50" height="70" rx="8" fill="url(#wg)" stroke="#2a1008" stroke-width="1.5"/>
+  <!-- Frame -->
+  <rect x="60" y="90" width="120" height="45" rx="6" fill="#888" stroke="#444" stroke-width="1.5"/>
+  <!-- Slide -->
+  <rect x="75" y="82" width="200" height="40" rx="6" fill="url(#mg)" stroke="#444" stroke-width="1.5" id="barrel"/>
+  <!-- Toggle/knick joint (Luger specific) -->
+  <g id="toggleJoint">
+    <rect x="175" y="82" width="30" height="15" rx="3" fill="#bbb" stroke="#777" stroke-width="1"/>
+    <line x1="175" y1="89" x2="205" y2="89" stroke="#666" stroke-width="2"/>
+  </g>
+  <!-- Barrel inner -->
+  <rect x="200" y="88" width="75" height="26" rx="5" fill="#999" stroke="#555" stroke-width="1"/>
+  <!-- Trigger guard -->
+  <path d="M95,135 Q115,160 138,135" stroke="#888" stroke-width="3" fill="none"/>
+  <!-- Trigger -->
+  <rect x="112" y="135" width="8" height="20" rx="2" fill="#aaa"/>
+  <!-- Magazine -->
+  <rect x="88" y="160" width="34" height="30" rx="4" fill="#777" stroke="#555" stroke-width="1.5"/>
+  <!-- Muzzle -->
+  <ellipse cx="275" cy="102" rx="9" ry="13" fill="#111" stroke="#555" stroke-width="1.5"/>
+</svg>`,
+
+    sturmgewehr: `
+<svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <radialGradient id="mg"><stop offset="0%" stop-color="#ccc"/><stop offset="100%" stop-color="#444"/></radialGradient>
+  </defs>
+  <!-- Buttstock -->
+  <rect x="15" y="110" width="120" height="35" rx="5" fill="#555" stroke="#333" stroke-width="1.5"/>
+  <rect x="20" y="115" width="110" height="25" rx="4" fill="#666" opacity="0.4"/>
+  <!-- Receiver -->
+  <rect x="128" y="100" width="180" height="50" rx="5" fill="#666" stroke="#333" stroke-width="1.5"/>
+  <!-- Barrel + gas tube -->
+  <rect x="300" y="108" width="220" height="24" rx="5" fill="url(#mg)" stroke="#333" stroke-width="1.5" id="barrel"/>
+  <rect x="300" y="100" width="180" height="10" rx="4" fill="#999" stroke="#666" stroke-width="1" opacity="0.7"/>
+  <!-- Curved magazine (AK) -->
+  <path d="M180,150 Q200,190 230,185 Q248,182 248,150" stroke="#555" stroke-width="2" fill="#4a4a3a" stroke-linejoin="round"/>
+  <rect x="178" y="148" width="72" height="8" rx="2" fill="#555" stroke="#333" stroke-width="1.5"/>
+  <!-- Charging handle -->
+  <rect x="280" y="98" width="25" height="8" rx="2" fill="#aaa" stroke="#777" stroke-width="1" id="chargeHandle"/>
+  <!-- Pistol grip -->
+  <rect x="245" y="148" width="35" height="50" rx="6" fill="#555" stroke="#333" stroke-width="1.5"/>
+  <!-- Trigger guard -->
+  <path d="M205,148 Q225,175 248,148" stroke="#777" stroke-width="2.5" fill="none"/>
+  <!-- Gas piston area -->
+  <rect x="300" y="100" width="60" height="10" rx="3" fill="#777" stroke="#555" stroke-width="1" id="gasBlock"/>
+  <!-- Muzzle -->
+  <rect x="515" y="105" width="15" height="30" rx="2" fill="#888" stroke="#555" stroke-width="1"/>
+  <ellipse cx="520" cy="120" rx="8" ry="15" fill="#111" stroke="#555" stroke-width="1.5"/>
+</svg>`,
+
+    modern: `
+<svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" id="weaponSVG">
+  <defs>
+    <radialGradient id="mg"><stop offset="0%" stop-color="#ddd"/><stop offset="100%" stop-color="#444"/></radialGradient>
+    <linearGradient id="rail" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#aaa"/><stop offset="100%" stop-color="#777"/></linearGradient>
+  </defs>
+  <!-- Adjustable buttstock -->
+  <rect x="15" y="112" width="100" height="30" rx="4" fill="#3a3a3a" stroke="#222" stroke-width="1.5"/>
+  <rect x="108" y="108" width="20" height="38" rx="3" fill="#2a2a2a" stroke="#111" stroke-width="1"/>
+  <!-- Lower receiver -->
+  <rect x="128" y="102" width="175" height="52" rx="5" fill="#3a3a3a" stroke="#222" stroke-width="1.5"/>
+  <!-- Upper receiver -->
+  <rect x="128" y="88" width="355" height="32" rx="5" fill="#444" stroke="#222" stroke-width="1.5" id="barrel"/>
+  <!-- Picatinny rail top -->
+  <rect x="130" y="85" width="353" height="6" rx="2" fill="url(#rail)" stroke="#555" stroke-width="1"/>
+  <!-- Optic placeholder -->
+  <rect x="200" y="74" width="80" height="14" rx="3" fill="#555" stroke="#333" stroke-width="1.5" opacity="0.8"/>
+  <rect x="215" y="72" width="20" height="4" rx="1" fill="#66aaff" opacity="0.6"/>
+  <!-- Barrel & handguard -->
+  <rect x="300" y="92" width="200" height="20" rx="4" fill="#555" stroke="#333" stroke-width="1.2"/>
+  <!-- Gas block -->
+  <rect x="420" y="88" width="18" height="14" rx="2" fill="#666" stroke="#444" stroke-width="1" id="gasBlock"/>
+  <!-- Magazine (STANAG) -->
+  <rect x="178" y="154" width="55" height="44" rx="4" fill="#2a2a2a" stroke="#111" stroke-width="1.5"/>
+  <rect x="180" y="154" width="51" height="8" rx="2" fill="#444" opacity="0.5"/>
+  <!-- Pistol grip -->
+  <rect x="238" y="150" width="30" height="48" rx="6" fill="#3a3a3a" stroke="#222" stroke-width="1.5"/>
+  <!-- Trigger guard + trigger -->
+  <path d="M205,150 Q222,178 240,150" stroke="#555" stroke-width="2.5" fill="none"/>
+  <rect x="217" y="150" width="7" height="18" rx="2" fill="#888"/>
+  <!-- Charging handle -->
+  <rect x="278" y="85" width="22" height="8" rx="2" fill="#999" stroke="#666" stroke-width="1" id="chargeHandle"/>
+  <!-- Muzzle brake -->
+  <rect x="495" y="90" width="30" height="28" rx="2" fill="#888" stroke="#555" stroke-width="1.5"/>
+  <line x1="500" y1="90" x2="500" y2="118" stroke="#666" stroke-width="1.5"/>
+  <line x1="508" y1="90" x2="508" y2="118" stroke="#666" stroke-width="1.5"/>
+  <line x1="516" y1="90" x2="516" y2="118" stroke="#666" stroke-width="1.5"/>
+  <ellipse cx="520" cy="104" rx="8" ry="14" fill="#111" stroke="#555" stroke-width="1.5"/>
+</svg>`
+  };
+  return svgs[id] || svgs['handrohr'];
+}
+
+// ============================================================
+//  PARTICLE SYSTEM
+// ============================================================
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
+
+let particles = [];
+function spawnParticles(x, y, type='fire') {
+  for(let i=0;i<(type==='fire'?60:30);i++){
+    const angle = Math.random()*Math.PI - Math.PI/2 + (type==='bullet'?0:0);
+    const speed = 2 + Math.random()*8;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle)*speed*(type==='bullet'?4:1),
+      vy: Math.sin(angle)*speed - (type==='fire'?2:1),
+      life: 1,
+      decay: 0.015 + Math.random()*0.03,
+      size: type==='fire' ? (3+Math.random()*5) : (1+Math.random()*3),
+      color: type==='fire'
+        ? `hsl(${30+Math.random()*30},100%,${50+Math.random()*20}%)`
+        : `hsl(220,60%,${60+Math.random()*30}%)`,
+      type
+    });
+  }
+}
+function animParticles() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles = particles.filter(p=>p.life>0);
+  for(const p of particles) {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+    ctx.fill();
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.15;
+    p.life -= p.decay;
+    p.size *= 0.97;
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+// ============================================================
+//  APP STATE
+// ============================================================
+let currentEra = 0;
+let currentStep = -1;
+
+function buildTimeline() {
+  const nav = document.getElementById('timelineNav');
+  nav.innerHTML = '';
+  ERAS.forEach((era, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'era-btn' + (i===0?' active':'');
+    btn.innerHTML = `${era.name}<span class="era-year">${era.year}</span>`;
+    btn.onclick = () => selectEra(i);
+    nav.appendChild(btn);
+  });
+}
+
+function selectEra(idx) {
+  currentEra = idx;
+  currentStep = -1;
+  document.querySelectorAll('.era-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  renderEra();
+  // Scroll timeline button into view
+  document.querySelectorAll('.era-btn')[idx].scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+}
+
+function renderEra() {
+  const era = ERAS[currentEra];
+  document.getElementById('weaponName').textContent = era.name;
+  document.getElementById('weaponYear').textContent = era.year;
+  document.getElementById('weaponDesc').textContent = era.desc;
+  document.getElementById('eraBadge').textContent = `${era.period} · ${era.year}`;
+
+  // SVG
+  document.getElementById('svgWrapper').innerHTML = getSVG(era.id);
+
+  // Steps
+  const sc = document.getElementById('stepsContainer');
+  sc.innerHTML = '';
+  era.steps.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'step';
+    d.innerHTML = `<span class="step-num">0${i+1}</span><span class="step-text">${s}</span>`;
+    d.onclick = () => activateStep(i, d);
+    sc.appendChild(d);
+  });
+
+  // Materials
+  const mc = document.getElementById('materialsContainer');
+  mc.innerHTML = '';
+  era.materials.forEach(m => {
+    const t = document.createElement('span');
+    t.className = 'mat-tag';
+    t.textContent = m;
+    mc.appendChild(t);
+  });
+
+  // Stats
+  renderStats(era);
+}
+
+function activateStep(idx, el) {
+  currentStep = idx;
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  // Animate the specific step visually
+  animateStep(idx);
+}
+
+function animateStep(idx) {
+  const era = ERAS[currentEra];
+  const svg = document.getElementById('weaponSVG');
+  if(!svg) return;
+  // Generic highlight: flash the barrel
+  const barrel = svg.getElementById && svg.getElementById('barrel');
+  if(barrel) {
+    barrel.style.transition = 'filter 0.3s';
+    barrel.style.filter = 'brightness(1.5) drop-shadow(0 0 8px rgba(255,180,0,0.8))';
+    setTimeout(()=>{ barrel.style.filter=''; }, 500);
+  }
+  // Specific animations per era
+  if(era.id === 'steinschloss') {
+    const hammer = svg.getElementById('hammer');
+    const frizzen = svg.getElementById('frizzen');
+    if(idx === 6 && hammer) {
+      hammer.style.animation = 'hammerStrike 0.4s ease-in-out';
+      setTimeout(()=>{ hammer.style.animation=''; }, 500);
+    }
+    if(idx === 3 && frizzen) {
+      frizzen.style.transform = 'rotate(-20deg)';
+      frizzen.style.transition = 'transform 0.3s';
+      setTimeout(()=>{ frizzen.style.transform=''; }, 500);
+    }
+  }
+  if(era.id === 'repetierer') {
+    const lever = svg.getElementById('lever');
+    if(lever && (idx===0 || idx===2)) {
+      lever.style.transform = 'rotate(30deg)';
+      lever.style.transition = 'transform 0.3s';
+      setTimeout(()=>{ lever.style.transform=''; }, 400);
+    }
+  }
+  if(era.id === 'radschloss') {
+    const wheel = svg.getElementById('wheel');
+    if(wheel && idx===5) {
+      wheel.style.animation = 'spin 0.4s linear';
+      setTimeout(()=>{ wheel.style.animation=''; }, 500);
+    }
+  }
+}
+
+function fireWeapon() {
+  const era = ERAS[currentEra];
+  const svgWrapper = document.getElementById('svgWrapper');
+  const rect = svgWrapper.getBoundingClientRect();
+
+  // Muzzle flash position (right side of SVG)
+  const flashX = rect.right - 30;
+  const flashY = rect.top + rect.height / 2;
+
+  // Muzzle flash element
+  const flash = document.createElement('div');
+  flash.className = 'muzzle-flash';
+  flash.style.left = (flashX - 40) + 'px';
+  flash.style.top = (flashY - 40) + 'px';
+  flash.style.position = 'fixed';
+  document.body.appendChild(flash);
+  setTimeout(()=>flash.remove(), 300);
+
+  // Smoke puff
+  const smoke = document.createElement('div');
+  smoke.className = 'smoke-puff';
+  smoke.style.left = (flashX - 30) + 'px';
+  smoke.style.top = (flashY - 30) + 'px';
+  smoke.style.position = 'fixed';
+  document.body.appendChild(smoke);
+  setTimeout(()=>smoke.remove(), 1600);
+
+  // Particles
+  spawnParticles(flashX, flashY, 'fire');
+  // Bullet streak
+  setTimeout(()=>{
+    for(let i=0;i<8;i++){
+      particles.push({
+        x: flashX, y: flashY,
+        vx: 20 + Math.random()*10,
+        vy: (Math.random()-0.5)*1,
+        life: 1,
+        decay: 0.04,
+        size: 2,
+        color: '#ffe066',
+        type: 'bullet'
+      });
+    }
+  }, 50);
+
+  // Recoil animation
+  const svg = document.getElementById('weaponSVG');
+  if(svg) {
+    svg.classList.add('recoiling');
+    setTimeout(()=>svg.classList.remove('recoiling'), 500);
+  }
+
+  // For luntenschloss: serpentine dips
+  if(era.id === 'luntenschloss') {
+    const serp = svg && svg.getElementById('serpentine');
+    if(serp) {
+      serp.style.transition = 'transform 0.15s';
+      serp.style.transform = 'rotate(25deg)';
+      setTimeout(()=>{ serp.style.transform=''; }, 200);
+    }
+  }
+  // Hammer animations
+  if(['perkussionsschloss','steinschloss','repetierer'].includes(era.id)) {
+    const hammer = svg && svg.getElementById('hammer');
+    if(hammer) {
+      hammer.style.animation = 'hammerStrike 0.3s ease-in-out';
+      setTimeout(()=>{ hammer.style.animation=''; }, 400);
+    }
+  }
+  // Modern/AK: charge handle bounce
+  if(['sturmgewehr','modern'].includes(era.id)) {
+    const ch = svg && svg.getElementById('chargeHandle');
+    if(ch) {
+      ch.style.transition = 'transform 0.1s';
+      ch.style.transform = 'translateX(-20px)';
+      setTimeout(()=>{ ch.style.transform='translateX(0)'; }, 120);
+    }
+  }
+}
+
+// ============================================================
+//  STATS RENDERING
+// ============================================================
+function renderStats(era) {
+  const { stats, penetrationTargets } = era;
+
+  // Penetration bars
+  const sb = document.getElementById('statsBody');
+  sb.innerHTML = '';
+  penetrationTargets.forEach(t => {
+    const wrap = document.createElement('div');
+    wrap.className = 'pen-meter';
+    wrap.innerHTML = `
+      <div class="pen-label">
+        <span class="pen-label-name">${t.name}</span>
+        <span class="pen-label-val">${t.pct}%</span>
+      </div>
+      <div class="pen-bar-bg">
+        <div class="pen-bar-fill" style="width:0%; background:linear-gradient(90deg, ${t.color}, ${t.color}cc)"></div>
+      </div>`;
+    sb.appendChild(wrap);
+    // Animate bar width
+    setTimeout(()=>{
+      wrap.querySelector('.pen-bar-fill').style.width = t.pct + '%';
+    }, 50);
+  });
+
+  // Also show Joule prominently
+  const jouleRow = document.createElement('div');
+  jouleRow.style.cssText='margin-top:14px; padding:10px; background:rgba(201,150,58,0.08); border-radius:3px; text-align:center;';
+  jouleRow.innerHTML = `<div style="font-family:'Share Tech Mono',monospace; font-size:1.6rem; color:#e8b84b;">${stats.joule.toLocaleString()} J</div><div style="font-size:0.8rem; color:#9a9078;">Mündungsenergie (Joule)</div>`;
+  sb.appendChild(jouleRow);
+
+  // Compare grid
+  const cg = document.getElementById('compareGrid');
+  const rows = [
+    ['Mündungsgeschw.', stats.muzzleVelocity + ' m/s'],
+    ['Effektive Reichweite', stats.effectiveRange + ' m'],
+    ['Feuerrate', stats.rof + '/min'],
+    ['Panzerdurchschlag', stats.penetrationMM + ' mm Stahl'],
+    ['Relative Treffsicherheit', stats.accuracy + '/100'],
+  ];
+  cg.innerHTML = rows.map(([n,v])=>`
+    <div class="compare-row">
+      <span class="cmp-name">${n}</span>
+      <span class="cmp-val">${v}</span>
+    </div>`).join('');
+
+  // Epoch chart (mini bar chart)
+  renderEpochChart();
+}
+
+function renderEpochChart() {
+  const ec = document.getElementById('epochChart');
+  const maxJ = Math.max(...ERAS.map(e=>e.stats.joule));
+  ec.innerHTML = '';
+  ERAS.forEach((e,i) => {
+    const pct = (e.stats.joule / maxJ * 100).toFixed(1);
+    const isActive = i === currentEra;
+    const row = document.createElement('div');
+    row.style.cssText = 'margin-bottom:5px; cursor:pointer;';
+    row.onclick = ()=>selectEra(i);
+    row.innerHTML = `
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px;">
+        <span style="font-size:0.72rem; color:${isActive?'#e8b84b':'#9a9078'}; min-width:80px; font-family:Share Tech Mono,monospace; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${e.name}</span>
+        <div style="flex:1; height:8px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden;">
+          <div style="height:100%; width:${pct}%; background:${isActive?'linear-gradient(90deg,#c9963a,#e8b84b)':'rgba(201,150,58,0.35)'}; border-radius:2px; transition:width 0.6s;"></div>
+        </div>
+        <span style="font-size:0.7rem; color:#9a9078; font-family:Share Tech Mono,monospace; min-width:44px; text-align:right;">${e.stats.joule}J</span>
+      </div>`;
+    ec.appendChild(row);
+  });
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+buildTimeline();
+renderEra();
+
+// CSS for wheel spin
+const style = document.createElement('style');
+style.textContent = `@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes glow { 0%,100%{opacity:0.9} 50%{opacity:1; filter:brightness(1.5)} }
+#matchGlow { animation: glow 0.8s ease-in-out infinite; }
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
